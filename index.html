@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>알레르기 식단 필터</title>
+</head>
+<body>
+    <h1>알레르기 번호를 선택하세요</h1>
+
+    <!-- 알러지 목록 표 -->
+    <table border="1">
+        <tr>
+            <th>번호</th>
+            <th>알레르기</th>
+        </tr>
+        {% for num, name in allergy_dict.items() %}
+        <tr>
+            <td>{{ num }}</td>
+            <td>{{ name }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- 알러지 다중 선택 폼 -->
+    <form method="post">
+        <h3>해당하는 알러지를 체크하세요:</h3>
+        {% for num, name in allergy_dict.items() %}
+            <input type="checkbox" name="allergies" value="{{ num }}"
+                {% if num in selected %} checked {% endif %}>
+            {{ num }}. {{ name }}<br>
+        {% endfor %}
+        <button type="submit">제출</button>
+    </form>
+
+    <!-- 결과 표시 -->
+{% if warning_data %}
+    <h2>주의해야 할 식단:</h2>
+    {% for day, dishes in warning_data.items() %}
+        <h3>{{ day }}</h3>
+        <ul>
+            {% for dish in dishes %}
+                <li>{{ dish }}</li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+{% endif %}
